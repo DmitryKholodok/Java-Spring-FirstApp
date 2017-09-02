@@ -3,40 +3,29 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="client" class="com.kholodok.spring.beans.Client">
-        <constructor-arg index="0" value="1"/>
-        <constructor-arg index="1" value="Dmitry Kholodok"/>
-    </bean>
+    <import resource="loggers.xml"/>
 
-    <bean id="eventLogger" class="com.kholodok.spring.loggers.ConsoleEventLogger" />
+        <bean id="client" class="com.kholodok.spring.beans.Client">
+            <constructor-arg index="0" value="1"/>
+            <constructor-arg index="1" value="Dmitry Kholodok"/>
+        </bean>
 
-    <bean id="app" class="com.kholodok.spring.App">
-        <constructor-arg index="0" ref="client"/>
-        <constructor-arg index="1" ref="cacheFileEventLogger"/>
-    </bean>
+        <bean id="app" class="com.kholodok.spring.App">
+            <constructor-arg index="0" ref="client"/>
+            <constructor-arg index="1" ref="cacheFileEventLogger"/>
+        </bean>
     
-    <bean name="event" class="com.kholodok.spring.beans.Event" scope="prototype">
+        <bean name="event" class="com.kholodok.spring.beans.Event" scope="prototype">
 
-        <constructor-arg>
-            <bean class="java.util.Date"/>
-        </constructor-arg>
+            <constructor-arg>
+                <bean class="java.util.Date"/>
+            </constructor-arg>
 
-        <constructor-arg ref="dateFormat"/>
+            <constructor-arg ref="dateFormat"/>
 
-    </bean>
+        </bean>
 
-    <bean id="dateFormat" class="java.text.DateFormat"
-          factory-method="getDateTimeInstance" />
-
-    <bean id="fileEventLogger" class="com.kholodok.spring.loggers.FileEventLogger"
-          init-method="init">
-        <constructor-arg value="target/events_log.txt"/>
-    </bean>
-    
-    <bean id="cacheFileEventLogger" class="com.kholodok.spring.loggers.CacheFileEventLogger"
-          parent="fileEventLogger" destroy-method="destroy">
-        <constructor-arg value="5"/>
-    </bean>
-
+        <bean id="dateFormat" class="java.text.DateFormat"
+              factory-method="getDateTimeInstance" />
 
 </beans>
